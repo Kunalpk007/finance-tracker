@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Finance Tracker</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0e1420">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+<div id="app"><div class="empty">Loading…</div></div>
+<nav style="display:none"><div class="inner">
+  <button data-nav="home"><em>◎</em>Home</button>
+  <button data-nav="tx"><em>≡</em>Entries</button>
+  <button data-nav="goals"><em>◈</em>Goals</button>
+  <button data-nav="reports"><em>▤</em>Reports</button>
+  <button data-nav="settings"><em>⚙</em>Settings</button>
+</div></nav>
+<button id="fab" style="display:none" aria-label="Add entry" data-testid="fab-add">+</button>
+<div class="toast" id="toast"></div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

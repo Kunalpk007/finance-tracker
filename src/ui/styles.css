@@ -1,0 +1,251 @@
+/* ============================================================================
+   Design tokens. One source of truth for color/spacing/elevation so every
+   screen inherits the same look for free — this is what makes the app read
+   as "one product" instead of a pile of ad-hoc screens. Dark mode is just a
+   token swap: nothing below this block ever hardcodes a color.
+============================================================================ */
+:root{
+  color-scheme: light;
+  --bg:#f5f1e4; --bg-2:#efe9d6; --card:#ffffff; --card-2:#fbf8f0;
+  --ink:#1b2233; --ink2:#63697a; --ink3:#93917c;
+  --line:#e5ddc4; --line-2:#efe9d6;
+  --accent:#a9791c; --accent-2:#8a6416; --accent-soft:#f3e6c4; --accent-ink:#fff;
+  --good:#1f7a4e; --good-soft:#e7f3ec; --warn:#8a6a16; --warn-soft:#fbf1da;
+  --bad:#c0433d; --bad-soft:#fbeae7;
+  --r-sm:10px; --r:16px; --r-lg:20px; --r-pill:999px;
+  --shadow-sm:0 1px 2px rgba(30,24,8,.04), 0 1px 3px rgba(30,24,8,.03);
+  --shadow:0 2px 8px rgba(30,24,8,.06), 0 8px 24px -8px rgba(30,24,8,.1);
+  --shadow-lg:0 12px 32px -8px rgba(30,24,8,.2), 0 4px 12px rgba(30,24,8,.1);
+  --accent-grad:linear-gradient(135deg,var(--accent),var(--accent-2));
+  --ease:cubic-bezier(.22,.7,.3,1);
+  --font-display:'Fraunces',Georgia,serif; --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --chart-1:#a9791c; --chart-2:#8592ae; --chart-3:#586380; --chart-4:#d9d2b4;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0e1420; --bg-2:#131a28; --card:#151d2c; --card-2:#1b2436;
+    --ink:#ede7d6; --ink2:#8a93a8; --ink3:#5e6577;
+    --line:#232e42; --line-2:#1c2536;
+    --accent:#c9a227; --accent-2:#b8901e; --accent-soft:#2c2410; --accent-ink:#0e1420;
+    --good:#6fce9a; --good-soft:#16241f; --warn:#d8b94a; --warn-soft:#241d0e;
+    --bad:#e0716b; --bad-soft:#2e1616;
+    --chart-1:#c9a227; --chart-2:#6e7fa8; --chart-3:#48557a; --chart-4:#2d3652;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+    --shadow:0 2px 10px rgba(0,0,0,.35), 0 10px 28px -10px rgba(0,0,0,.5);
+    --shadow-lg:0 16px 40px -10px rgba(0,0,0,.6), 0 6px 16px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0e1420; --bg-2:#131a28; --card:#151d2c; --card-2:#1b2436;
+  --ink:#ede7d6; --ink2:#8a93a8; --ink3:#5e6577;
+  --line:#232e42; --line-2:#1c2536;
+  --accent:#c9a227; --accent-2:#b8901e; --accent-soft:#2c2410; --accent-ink:#0e1420;
+  --good:#6fce9a; --good-soft:#16241f; --warn:#d8b94a; --warn-soft:#241d0e;
+  --bad:#e0716b; --bad-soft:#2e1616;
+  --chart-1:#c9a227; --chart-2:#6e7fa8; --chart-3:#48557a; --chart-4:#2d3652;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 2px 10px rgba(0,0,0,.35), 0 10px 28px -10px rgba(0,0,0,.5);
+  --shadow-lg:0 16px 40px -10px rgba(0,0,0,.6), 0 6px 16px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font:15px/1.5 var(--font-body);
+  padding-bottom:84px;
+  -webkit-font-smoothing:antialiased;
+}
+#app{max-width:680px;margin:0 auto;padding:18px 16px 0}
+
+/* Type ---------------------------------------------------------------- */
+h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:2px 0 2px;letter-spacing:-.2px}
+h2{font-size:12.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink3);margin:22px 2px 9px;font-weight:700}
+h3{font-size:15px;margin:0 0 10px;font-weight:650;letter-spacing:-.1px}
+.sub{color:var(--ink2);font-size:13.5px;margin:0 0 16px}
+.muted{color:var(--ink2)}
+.tiny{font-size:12px;color:var(--ink3)}
+.num{font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
+.big{font-family:var(--font-display);font-size:34px;font-weight:600;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.mid{font-size:20px;font-weight:650;font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
+
+/* Surfaces -------------------------------------------------------------- */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px;box-shadow:var(--shadow-sm);margin-bottom:12px;
+}
+.card.raised{box-shadow:var(--shadow)}
+.card.hero{
+  background:var(--accent-grad);color:var(--accent-ink);border:none;box-shadow:var(--shadow-lg);
+}
+.card.hero .tiny{color:rgba(255,255,255,.78)}
+.card.hero .big{color:#fff}
+
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.grow{flex:1;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Reusable list row: replaces the old copy-pasted per-screen inline style
+   (padding + top divider) that was scattered across ~8 screen files —
+   one class, one place to tune spacing/hover for every list in the app. */
+.list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 2px;border-top:1px solid var(--line-2)}
+.list-block{padding:9px 2px;border-top:1px solid var(--line-2)}
+.list-row.tap,.list-block.tap{cursor:pointer;border-radius:var(--r-sm);margin:0 -8px;padding-left:8px;padding-right:8px}
+.list-row.tap:hover,.list-block.tap:hover{background:var(--card-2)}
+
+.pill{display:inline-block;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:650;letter-spacing:.1px}
+.p-good{background:var(--good-soft);color:var(--good)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-neut{background:var(--line-2);color:var(--ink2)}
+
+.bar{height:7px;border-radius:6px;background:var(--line-2);overflow:hidden;margin-top:7px}
+.bar > i{display:block;height:100%;border-radius:6px;background:var(--accent-grad)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 0 3px color-mix(in srgb, currentColor 15%, transparent)}
+.divider{height:1px;background:var(--line);margin:12px -16px}
+
+/* Controls ---------------------------------------------------------------- */
+button{font:inherit;cursor:pointer}
+.btn{
+  background:var(--accent-grad);color:var(--accent-ink);border:none;border-radius:12px;
+  padding:12px 16px;font-weight:650;font-size:14px;box-shadow:0 2px 8px -2px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.sm{padding:8px 12px;font-size:13px;border-radius:10px}
+.btn.grow{flex:1}
+.btn.wide{width:100%}
+.btn.danger{background:var(--bad);box-shadow:0 2px 8px -2px color-mix(in srgb, var(--bad) 45%, transparent)}
+.btn:disabled{opacity:.5;cursor:default}
+
+input,select,textarea{
+  font:inherit;width:100%;padding:11px 12px;border:1px solid var(--line);
+  border-radius:var(--r-sm);background:var(--card);color:var(--ink);outline:none
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent)}
+label.f{display:block;margin-bottom:10px}
+label.f > span{display:block;font-size:12px;font-weight:650;color:var(--ink2);margin-bottom:5px}
+
+.amt-wrap{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 12px;background:var(--card)}
+.amt-wrap span{font-size:26px;color:var(--ink3)}
+.amt-wrap input{border:none;padding:8px 0;font-size:30px;font-weight:700;letter-spacing:-1px;background:transparent}
+
+.seg{display:flex;background:var(--bg-2);border-radius:13px;padding:3px;margin-bottom:14px}
+.seg button{flex:1;border:none;background:transparent;padding:9px 4px;border-radius:10px;font-size:13.5px;font-weight:650;color:var(--ink2)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm)}
+
+.catgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.catgrid button{
+  border:1px solid var(--line);background:var(--card);border-radius:var(--r-sm);padding:10px 4px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10.5px;
+  font-weight:650;color:var(--ink2);line-height:1.15;min-height:70px;justify-content:center
+}
+.catgrid button em{font-style:normal;font-size:20px;line-height:1}
+.catgrid button.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+
+.tx{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line-2);cursor:pointer;border-radius:var(--r-sm)}
+.tx:last-child{border-bottom:none}
+.tx:hover{background:var(--card-2)}
+.tx .ic{width:38px;height:38px;border-radius:11px;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.tx .t1{font-weight:650;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx .t2{font-size:11.5px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx .val{font-weight:700;font-variant-numeric:tabular-nums;font-size:14.5px;flex:none}
+
+.attn{display:flex;gap:10px;align-items:flex-start;padding:10px 2px;border-bottom:1px solid var(--line-2)}
+.attn:last-child{border-bottom:none}
+
+nav{
+  position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb, var(--card) 88%, transparent);
+  border-top:1px solid var(--line);display:flex;justify-content:center;
+  padding:7px 0 max(7px, env(safe-area-inset-bottom));backdrop-filter:blur(14px) saturate(1.4);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);z-index:40
+}
+nav .inner{display:flex;width:100%;max-width:680px}
+nav button{
+  flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;
+  gap:3px;font-size:10px;font-weight:650;color:var(--ink3);padding:5px 0
+}
+nav button em{font-style:normal;font-size:19px;line-height:1}
+nav button.on{color:var(--accent)}
+
+/* Floating add button — one persistent element outside #app (survives every
+   re-render), shown on any authenticated screen except the add form itself. */
+#fab{
+  position:fixed;right:18px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:41;
+  width:52px;height:52px;border-radius:50%;border:none;
+  background:var(--accent-grad);color:var(--accent-ink);font-size:26px;font-weight:300;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 24px -6px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Horizontally-scrolling insight cards on Home, replacing the old plain
+   "needs attention" bullet list. */
+.insight-row{display:flex;gap:10px;overflow-x:auto;margin:0 -2px 12px;padding:2px 2px 4px;scrollbar-width:none}
+.insight-row::-webkit-scrollbar{display:none}
+.insight{flex:0 0 208px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 13px;box-shadow:var(--shadow-sm)}
+.insight .tiny{line-height:1.45}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);padding:0 0 7px;font-weight:650}
+td{padding:9px 0;border-top:1px solid var(--line-2);font-variant-numeric:tabular-nums}
+td.r,th.r{text-align:right}
+.chartbox{position:relative;height:210px}
+.empty{text-align:center;color:var(--ink3);padding:28px 10px;font-size:13.5px}
+
+.toast{
+  position:fixed;bottom:92px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+  padding:10px 18px;border-radius:var(--r-pill);font-size:13px;font-weight:650;z-index:60;
+  opacity:0;transition:opacity .18s,transform .18s var(--ease);pointer-events:none;max-width:90%;box-shadow:var(--shadow-lg)
+}
+.toast.show{opacity:1}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:7px 12px;font-size:12.5px;font-weight:650;color:var(--ink2)}
+.chip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.listitem{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line-2)}
+.listitem:last-child{border-bottom:none}
+.x{border:none;background:var(--bg-2);color:var(--ink2);width:28px;height:28px;border-radius:9px;font-size:15px;flex:none;line-height:1}
+.preview-box{background:var(--accent-soft);border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);border-radius:var(--r-sm);padding:12px;margin:10px 0}
+
+/* Modal --------------------------------------------------------------- */
+dialog.modal{
+  border:none;border-radius:var(--r-lg);padding:0;width:min(440px,92vw);max-height:88vh;overflow:auto;
+  box-shadow:var(--shadow-lg);background:var(--card);color:var(--ink);
+  opacity:0;transform:translateY(10px) scale(.97);transition:opacity .2s var(--ease),transform .2s var(--ease),overlay .2s allow-discrete,display .2s allow-discrete;
+}
+dialog.modal[open]{opacity:1;transform:none}
+@starting-style{ dialog.modal[open]{opacity:0;transform:translateY(10px) scale(.97)} }
+dialog.modal::backdrop{background:rgba(10,12,18,.5);backdrop-filter:blur(2px);opacity:0;transition:opacity .2s var(--ease),overlay .2s allow-discrete,display .2s allow-discrete}
+dialog.modal[open]::backdrop{opacity:1}
+@starting-style{ dialog.modal[open]::backdrop{opacity:0} }
+dialog.modal .modal-body{padding:18px}
+dialog.modal h2{font-size:17px;margin:0 0 14px;font-weight:700}
+
+@media(min-width:560px){ .catgrid{grid-template-columns:repeat(6,1fr)} }
+
+/* Motion ---------------------------------------------------------------
+   Every transition below is plain CSS — no animation library. Screen swaps
+   use the native View Transitions API (wired in app.ts) when the browser
+   supports it; this block covers everything else: press feedback, list
+   entrances, the modal, the toast. */
+@media (prefers-reduced-motion: no-preference){
+  .btn,.catgrid button,.chip,.tx,.x,nav button,#fab,.list-row.tap,.list-block.tap,input,select{
+    transition:transform .1s ease-out, background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease
+  }
+  .btn:active,.chip:active,.x:active,#fab:active{ transform:scale(.96) }
+  .catgrid button:active{ transform:scale(.93) }
+  .tx:active,.list-row.tap:active,.list-block.tap:active{ transform:scale(.99) }
+  nav button:active em{ transform:scale(.88) }
+  nav button em{ transition:transform .1s ease-out }
+  .bar > i{ transition:width .5s var(--ease) }
+  .toast:not(.show){ transform:translateX(-50%) translateY(6px) }
+  .toast.show{ transform:translateX(-50%) translateY(0) }
+
+  ::view-transition-old(root){ animation:screenOut .16s ease-in both }
+  ::view-transition-new(root){ animation:screenIn .22s var(--ease) both }
+  @keyframes screenOut{ to{opacity:0;transform:translate3d(0,-4px,0)} }
+  @keyframes screenIn{ from{opacity:0;transform:translate3d(0,8px,0)} }
+}

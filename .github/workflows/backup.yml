@@ -1,0 +1,69 @@
+name: Database Backup
+
+# REQUIRED REPO SECRETS (Settings -> Secrets and variables -> Actions):
+#   SUPABASE_DB_URL     - full Postgres connection string, e.g.
+#                          postgresql://postgres:<password>@db.<project-ref>.supabase.co:5432/postgres
+#   SUPABASE_URL         - your project's REST URL, e.g. https://<project-ref>.supabase.co
+#   SUPABASE_ANON_KEY    - the project's anon/public API key
+#
+# None of these exist yet in a freshly-scaffolded repo -- this workflow will
+# fail (loudly, on purpose, see the "Verify required secrets" step below)
+# until they are added. See SETUP.md step 8 for how to add them.
+
+on:
+  schedule:
+    # 20:30 UTC daily ~= 02:00 IST
+    - cron: '30 20 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify required secrets are set
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          missing=0
+          for var in SUPABASE_DB_URL SUPABASE_URL SUPABASE_ANON_KEY; do
+            if [ -z "${!var}" ]; then
+              echo "::error::Required secret $var is not set. Add it under Settings > Secrets and variables > Actions (see SETUP.md step 8)."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            exit 1
+          fi
+
+      # Supabase free-tier projects auto-pause after 7 days with zero API
+      # activity. This scheduled backup run may be the only thing that ever
+      # touches the project on a quiet week, so ping the REST endpoint first
+      # to keep the project awake / wake it back up before pg_dump tries to
+      # connect to it.
+      - name: Keep-alive ping to Supabase REST endpoint
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/" -H "apikey: $SUPABASE_ANON_KEY")
+          echo "Supabase REST endpoint responded with HTTP $code"
+
+      - name: Install postgresql-client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Dump database
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          pg_dump "$SUPABASE_DB_URL" --format=custom --file="backup-$(date +%F).dump"
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-backup-${{ github.run_id }}
+          path: backup-*.dump
+          retention-days: 30
