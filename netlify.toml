@@ -1,3 +1,14 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
+# Security headers. CSP: inline theme script in index.html is allowed by hash
+# (recompute if that script changes); inline style="" attributes need 'unsafe-inline' for styles.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-SxAg1mExiaPOWE3d7km5E0ER2ft1E1b7xXb+ZWXNVfY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"

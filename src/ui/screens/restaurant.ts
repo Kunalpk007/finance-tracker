@@ -18,7 +18,7 @@ export function vMenu(app: AppState): string {
       const margin = can(scope, 'manageSetup') ? dishMarginPaise(scope, mi) : null;
       return `<div class="list-block" data-testid="menu-item-${esc(mi.id)}">
         <div class="between"><span style="font-weight:600;font-size:13.5px">${esc(mi.name)}</span><span class="num">${formatMoney(mi.pricePaise)}</span></div>
-        <div class="tiny">${lines.map((l) => `${l.qty}${l.unit} ${byId(scope.state.pantryItems, l.itemId)?.name ?? '?'}`).join(', ') || 'No recipe set'}</div>
+        <div class="tiny">${lines.map((l) => esc(`${l.qty}${l.unit} ${byId(scope.state.pantryItems, l.itemId)?.name ?? '?'}`)).join(', ') || 'No recipe set'}</div>
         ${margin ? `<div class="tiny" style="color:${margin.marginPaise >= 0 ? 'var(--good)' : 'var(--bad)'}">Cost ${formatMoney(margin.costPaise)} · margin ${margin.marginPct}%</div>` : ''}
       </div>`;
     }).join('') || '<div class="empty">No menu items yet.</div>'}

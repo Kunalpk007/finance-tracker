@@ -56,7 +56,7 @@ export function vDetail(app: AppState): string {
       <span class="tiny">${esc(k)}</span><span style="font-size:13.5px;font-weight:600;text-align:right">${esc(v)}</span></div>` : '';
   const note = lifecycleNote(t);
 
-  return `<h1>${t.type === 'transfer' ? 'Transfer' : (c ? c.name : 'Entry')}</h1>
+  return `<h1>${t.type === 'transfer' ? 'Transfer' : esc(c ? c.name : 'Entry')}</h1>
   <p class="sub">${esc(t.date)}</p>
   <div class="card" data-testid="detail-card">
     <div class="between" style="align-items:flex-start">

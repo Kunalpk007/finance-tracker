@@ -6,6 +6,7 @@
 ============================================================================ */
 :root{
   color-scheme: light;
+  --badge-gap:56px; /* lifts nav/FAB above Netlify's injected badge; set to 0 once it's removed */
   --bg:#f5f1e4; --bg-2:#efe9d6; --card:#ffffff; --card-2:#fbf8f0;
   --ink:#1b2233; --ink2:#63697a; --ink3:#93917c;
   --line:#e5ddc4; --line-2:#efe9d6;
@@ -56,7 +57,7 @@ body{
   background:var(--bg);
   color:var(--ink);
   font:15px/1.5 var(--font-body);
-  padding-bottom:84px;
+  padding-bottom:calc(84px + var(--badge-gap));
   -webkit-font-smoothing:antialiased;
 }
 #app{max-width:680px;margin:0 auto;padding:18px 16px 0}
@@ -160,7 +161,7 @@ label.f > span{display:block;font-size:12px;font-weight:650;color:var(--ink2);ma
 nav{
   position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb, var(--card) 88%, transparent);
   border-top:1px solid var(--line);display:flex;justify-content:center;
-  padding:7px 0 max(7px, env(safe-area-inset-bottom));backdrop-filter:blur(14px) saturate(1.4);
+  padding:7px 0 calc(max(7px, env(safe-area-inset-bottom)) + var(--badge-gap));backdrop-filter:blur(14px) saturate(1.4);
   -webkit-backdrop-filter:blur(14px) saturate(1.4);z-index:40
 }
 nav .inner{display:flex;width:100%;max-width:680px}
@@ -174,7 +175,7 @@ nav button.on{color:var(--accent)}
 /* Floating add button — one persistent element outside #app (survives every
    re-render), shown on any authenticated screen except the add form itself. */
 #fab{
-  position:fixed;right:18px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:41;
+  position:fixed;right:18px;bottom:calc(74px + var(--badge-gap) + env(safe-area-inset-bottom));z-index:41;
   width:52px;height:52px;border-radius:50%;border:none;
   background:var(--accent-grad);color:var(--accent-ink);font-size:26px;font-weight:300;line-height:1;
   display:flex;align-items:center;justify-content:center;

@@ -87,7 +87,13 @@ export class RemoteAdapter implements StoreAdapter {
   private async fetchAll(table: string): Promise<Row[]> {
     const out: Row[] = [];
     for (let from = 0; ; from += PAGE) {
-      const { data, error } = await this.client.from(table).select('*').order('id').range(from, from + PAGE - 1);
+      let res = await this.client.from(table).select('*').order('id').range(from, from + PAGE - 1);
+      // Clock skew between Supabase's auth and API servers right after sign-in is transient.
+      for (let i = 0; i < 3 && res.error?.message.includes('issued at future'); i++) {
+        await new Promise((r) => setTimeout(r, 1500));
+        res = await this.client.from(table).select('*').order('id').range(from, from + PAGE - 1);
+      }
+      const { data, error } = res;
       if (error) throw new Error(`${table}: ${error.message}`);
       out.push(...(data as Row[]));
       if (data.length < PAGE) return out;
